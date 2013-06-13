@@ -1,52 +1,72 @@
+# -*- mode: ruby; -*-
+# vi: set ft=ruby :
+
+domain = 'salt-cellar.com'
+
 Vagrant.configure("2") do |config|
-  ## Chose your base box
-  config.vm.box = "precise64"
+  
+  config.vm.define :master do |master|
+    master.vm.box = "precise64"
+    master.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    master.vm.hostname = "master.#{domain}"
+    master.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+    master.vm.synced_folder "salt/roots/", "/srv/"
 
-  ## For local master, mount your file_roots
-  config.vm.synced_folder "salt/roots/", "/srv/"
+    master.vm.provision :salt do |salt|
+      # salt output
+      salt.verbose = true
 
-  config.vm.provision :salt do |salt|
+      # install type (stable | git | daily)
+      salt.install_type = "stable"
 
-    # Config Options
-    salt.minion_config = "salt/minion"
-    salt.master_config = "salt/master"
+      # install salt-master
+      salt.install_master = true
 
-    # These are more useful when connecting to a remote master
-    # and you want to use pre-seeded keys (already accepted on master)
-    ## !! Please do not use these keys in production!
-    salt.minion_key = "salt/key/minion.pem"
-    salt.minion_pub = "salt/key/minion.pub"
+      # configs
+      salt.master_config = "salt/master"
+      salt.minion_config = "salt/minion"
 
-    # Good for multi-vm setups where live minions are expecting
-    # existing master
-    ## !! Please do not use these keys in production!
-    salt.master_key = "salt/key/master.pem"
-    salt.master_pub = "salt/key/master.pub"
+      # keys
+      salt.master_key = "salt/key/master.pem"
+      salt.master_pub = "salt/key/master.pub"
+      salt.minion_key = "salt/key/minion.pem"
+      salt.minion_pub = "salt/key/minion.pub"
 
-    # If you need bleeding edge salt
-    salt.install_type = "git"
-    salt.install_args = "develop"
+      # seed minion keys
+      salt.seed_master = {minion1: "salt/key/minion.pub",
+                          minion2: "salt/key/minion.pub"}
 
-    # Install a master on this machine
-    salt.install_master = true
+      salt.accept_keys = true
+      salt.run_highstate = true
+      salt.always_install = true
 
-    # Pre-seed your master (recommended)
-    salt.seed_master = {minion: salt.minion_pub}
-
-    # Normally we want to run state.highstate to provision the machine
-    salt.run_highstate = true
-
-    # If you are using a master with minion setup, you may accept keys
-    # If keys have already been except, it will pass
-    # DEPRECATED
-    salt.accept_keys = true
-
-    # Default will not install / update salt binaries if they are present
-    # Use this option to always install
-    salt.always_install = true
-
-    # Gives more output, such as fromt bootstrap script
-    salt.verbose = true
-
+    end
   end
+
+  config.vm.define :minion1 do |minion|
+    minion.vm.box = "precise64"
+    minion.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    minion.vm.hostname = "minion1.#{domain}"
+    minion.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+    minion.vm.provision :salt do |salt|
+      salt.minion_config = "salt/minion"
+      salt.minion_key = "salt/key/minion.pem"
+      salt.minion_pub = "salt/key/minion.pub"
+      salt.verbose = true
+    end
+  end
+
+  config.vm.define :minion2 do |minion|
+    minion.vm.box = "precise64"
+    minion.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    minion.vm.hostname = "minion2.#{domain}"
+    minion.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+    minion.vm.provision :salt do |salt|
+      salt.minion_config = "salt/minion"
+      salt.minion_key = "salt/key/minion.pem"
+      salt.minion_pub = "salt/key/minion.pub"
+      salt.verbose = true
+    end
+  end
+
 end
