@@ -1,4 +1,3 @@
 base:
   '*':
     - nginx
-    - users.dave

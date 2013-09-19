@@ -1,72 +1,35 @@
-# -*- mode: ruby; -*-
+# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-domain = 'salt-cellar.com'
-
 Vagrant.configure("2") do |config|
-  
-  config.vm.define :master do |master|
-    master.vm.box = "precise64"
-    master.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    master.vm.hostname = "master.#{domain}"
-    master.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
-    master.vm.synced_folder "salt/roots/", "/srv/"
+  # vagrant docs: vagrantup.com.
 
-    master.vm.provision :salt do |salt|
-      # salt output
-      salt.verbose = true
+  config.vm.box = "salty-wheezy64"
+  config.vm.box_url = "http://goo.gl/v6Eme3"
 
-      # install type (stable | git | daily)
-      salt.install_type = "stable"
+  # config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :private_network, ip: "172.16.42.10"
+  # config.vm.network :public_network
 
-      # install salt-master
-      salt.install_master = true
+  # config.vm.synced_folder "salt/roots/", "/srv/salt/"
+  config.vm.synced_folder "salt/roots/", "/srv/"
 
-      # configs
-      salt.master_config = "salt/master"
-      salt.minion_config = "salt/minion"
+  config.vm.provision :salt do |salt|
+    salt.master_config = "salt/master"
+    salt.minion_config = "salt/minion"
 
-      # keys
-      salt.master_key = "salt/key/master.pem"
-      salt.master_pub = "salt/key/master.pub"
-      salt.minion_key = "salt/key/minion.pem"
-      salt.minion_pub = "salt/key/minion.pub"
+    salt.minion_key = "salt/key/minion.pem"
+    salt.minion_pub = "salt/key/minion.pub"
 
-      # seed minion keys
-      salt.seed_master = {minion1: "salt/key/minion.pub",
-                          minion2: "salt/key/minion.pub"}
+    salt.master_key = "salt/key/master.pem"
+    salt.master_pub = "salt/key/master.pub"
 
-      salt.accept_keys = true
-      salt.run_highstate = true
-      salt.always_install = true
+    salt.install_master = true
+    salt.seed_master = {minion: salt.minion_pub}
 
-    end
-  end
-
-  config.vm.define :minion1 do |minion|
-    minion.vm.box = "precise64"
-    minion.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    minion.vm.hostname = "minion1.#{domain}"
-    minion.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
-    minion.vm.provision :salt do |salt|
-      salt.minion_config = "salt/minion"
-      salt.minion_key = "salt/key/minion.pem"
-      salt.minion_pub = "salt/key/minion.pub"
-      salt.verbose = true
-    end
-  end
-
-  config.vm.define :minion2 do |minion|
-    minion.vm.box = "precise64"
-    minion.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    minion.vm.hostname = "minion2.#{domain}"
-    minion.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
-    minion.vm.provision :salt do |salt|
-      salt.minion_config = "salt/minion"
-      salt.minion_key = "salt/key/minion.pem"
-      salt.minion_pub = "salt/key/minion.pub"
-      salt.verbose = true
-    end
+    salt.run_highstate = true
+    salt.accept_keys = true
+    salt.verbose = true
   end
 
 end

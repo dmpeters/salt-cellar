@@ -11,7 +11,7 @@
 #default_include: master.d/*.conf
 
 # The address of the interface to bind to
-#interface: 0.0.0.0
+interface: 10.0.0.0
 
 # The tcp port used by the publisher
 #publish_port: 4505
@@ -19,7 +19,7 @@
 # The user to run the salt-master as. Salt will update all permissions to
 # allow the specified user to run the master. If the modified files cause
 # conflicts set verify_env to False.
-#user: root
+# user: vagrant
 
 # Max open files
 # Each minion connecting to the master uses AT LEAST one file descriptor, the
@@ -62,7 +62,7 @@
 #cachedir: /var/cache/salt/master
 
 # Verify and set permissions on configuration directories at startup
-#verify_env: True
+verify_env: True
 
 # Set the number of hours to keep old job information in the job cache
 #keep_jobs: 24
@@ -119,10 +119,12 @@
 # the situation where your keys end up in a bad state. If you run in open mode
 # you do so at your own risk!
 #open_mode: False
+open_mode: True
 
 # Enable auto_accept, this setting will automatically accept all incoming
 # public keys from the minions. Note that this is insecure.
 #auto_accept: False
+#auto_accept: True
 
 # If the autosign_file is specified only incoming keys specified in
 # the autosign_file will be automatically accepted. This is insecure.
@@ -147,6 +149,10 @@
 #     - test.ping
 #     - network.*
 #
+client_acl:
+  vagrant:
+    - test.ping
+    - network.*
 
 # Blacklist any of the following users or modules
 #

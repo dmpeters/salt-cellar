@@ -8,7 +8,7 @@ master: localhost
 #master_port: 4506
 
 # The user to run salt
-#user: root
+# user: vagrant
 
 # The root directory prepended to these options: pki_dir, cachedir, log_file.
 #root_dir: /
@@ -130,7 +130,7 @@ master: localhost
 # the master but used to reference a local directory on the minion.
 
 # Set the file client, the client defaults to looking on the master server for
-# files, but can be directed to look at the local file directory setting 
+# files, but can be directed to look at the local file directory setting
 # defined below by setting it to local.
 #file_client: local
 
@@ -173,6 +173,7 @@ master: localhost
 # the situation where your keys end up in a bad state. If you run in open mode
 # you do so at your own risk!
 #open_mode: False
+open_mode: True
 
 
 ######         Thread settings        #####
@@ -210,10 +211,10 @@ master: localhost
 # data must be applied via the yaml dict construct, some examples:
 #
 # A simple value for the test module:
-#test.foo: foo
-#
+test.foo: 'vagrant'
+
 # A list for the test module:
-#test.bar: [baz,quo]
-#
+test.bar: ['vagrant', 'saltstack']
+
 # A dict for the test module:
-#test.baz: {spam: sausage, cheese: bread}
+test.baz: {'vagrant': 'ops', 'saltstack': 'mgmt'}
