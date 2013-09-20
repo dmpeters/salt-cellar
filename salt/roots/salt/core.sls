@@ -3,6 +3,7 @@ core:
     - names:
       - build-essential
       - git-core
+      - wget
       - vim
       - vim-nox
       - python-dev
