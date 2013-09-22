@@ -173,7 +173,7 @@ master: localhost
 # the situation where your keys end up in a bad state. If you run in open mode
 # you do so at your own risk!
 #open_mode: False
-open_mode: True
+# open_mode: True
 
 
 ######         Thread settings        #####
@@ -211,10 +211,10 @@ open_mode: True
 # data must be applied via the yaml dict construct, some examples:
 #
 # A simple value for the test module:
-test.foo: 'vagrant'
+# test.foo: 'vagrant'
 
-# A list for the test module:
-test.bar: ['vagrant', 'saltstack']
+# # A list for the test module:
+# test.bar: ['vagrant', 'saltstack']
 
-# A dict for the test module:
-test.baz: {'vagrant': 'ops', 'saltstack': 'mgmt'}
+# # A dict for the test module:
+# test.baz: {'vagrant': 'ops', 'saltstack': 'mgmt'}

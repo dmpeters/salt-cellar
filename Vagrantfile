@@ -15,9 +15,20 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "salt/roots/", "/srv/"
 
   config.vm.provision :salt do |salt|
-    salt.minion_config = "salt/minion"
-    salt.run_highstate = true
+
+    # salt.minion_config = "salt/minion"
+    # salt.master_config = "salt/master"
+    # salt.minion_key = "salt/key/minion.pem"
+    # salt.minion_pub = "salt/key/minion.pub"
+    # salt.master_key = "salt/key/master.pem"
+    # salt.master_pub = "salt/key/master.pub"
+    # salt.install_master = true
+    # salt.seed_master = {minion: salt.minion_pub}
+    # salt.accept_keys = true
+    # salt.always_install = true
+
     salt.verbose = true
+    salt.run_highstate = true
   end
 
 end

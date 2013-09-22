@@ -4,3 +4,4 @@ base:
     - librets
     - ntp
     - nginx
+    - elasticsearch

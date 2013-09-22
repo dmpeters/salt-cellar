@@ -11,7 +11,7 @@
 #default_include: master.d/*.conf
 
 # The address of the interface to bind to
-interface: 10.0.0.2
+# interface: 10.0.0.2
 
 # The tcp port used by the publisher
 #publish_port: 4505
@@ -62,7 +62,7 @@ interface: 10.0.0.2
 #cachedir: /var/cache/salt/master
 
 # Verify and set permissions on configuration directories at startup
-verify_env: True
+# verify_env: True
 
 # Set the number of hours to keep old job information in the job cache
 #keep_jobs: 24
@@ -119,7 +119,7 @@ verify_env: True
 # the situation where your keys end up in a bad state. If you run in open mode
 # you do so at your own risk!
 #open_mode: False
-open_mode: True
+# open_mode: True
 
 # Enable auto_accept, this setting will automatically accept all incoming
 # public keys from the minions. Note that this is insecure.
@@ -149,10 +149,10 @@ open_mode: True
 #     - test.ping
 #     - network.*
 #
-client_acl:
-  vagrant:
-    - test.ping
-    - network.*
+# client_acl:
+#   vagrant:
+#     - test.ping
+#     - network.*
 
 # Blacklist any of the following users or modules
 #
