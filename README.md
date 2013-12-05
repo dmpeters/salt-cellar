@@ -12,7 +12,7 @@ saltstack and a virtualbox vm on my Mac OSX machine.
 #### To Use
  - brew install python swig zmq
  - virtualenv salt or mkvirtualenv salt
- - pip install salty yolk
+ - pip install salt yolk
  - sudo launchctl limit maxfiles 4096 8192
  - sudo salt-master --log-level=all
  - ln -s salt /etc/salt
@@ -20,4 +20,4 @@ saltstack and a virtualbox vm on my Mac OSX machine.
  - vagrant up
  - sudo salt '*' test.ping
 
-Instructions Reference can be found here: http://goo.gl/NFJMch
+Instructional Reference can be found here: http://goo.gl/NFJMch
