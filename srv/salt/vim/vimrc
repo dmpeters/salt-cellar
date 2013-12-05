@@ -1,0 +1,89 @@
+" Minified vim configuration
+" Settings
+
+"{{{ General behavior
+set nocompatible
+filetype plugin indent on
+set autowrite
+set backspace=indent,eol,start
+set hidden
+"}}}
+
+"{{{ Folding
+silent! set foldcolumn=0
+silent! set foldenable
+silent! set foldlevel=10
+silent! set foldmarker={{{,}}}
+silent! set foldmethod=marker
+silent! set foldopen-=search
+silent! set foldopen-=undo
+"}}}
+
+"{{{ GUI
+silent! set guifont=Monaco
+silent! set guioptions=
+"}}}
+
+"{{{ Tabs
+set autoindent
+set expandtab
+set shiftwidth=4
+set smarttab
+set tabstop=4
+set softtabstop=4
+"}}}
+
+"{{{ Temp files
+set backup
+set backupdir=~/.vim/tmp/
+silent! set undodir=~/.vim/tmp/
+silent! set undofile
+"}}}
+
+"{{{ Mouse
+silent! set mouse=a
+"}}}
+
+"{{{ General display
+set display+=lastline
+set showcmd
+set showmode
+set showmatch
+set novisualbell
+set number
+set ruler
+set wrap
+set laststatus=2
+set shortmess=
+"set statusline=(%{strlen(&ft)?&ft:'?'},%{&fenc},%{&ff})\ \ %-9.(%l,%c%V%)\ \ %<%P
+set scrolloff=3
+set wildmenu
+set wildignore+=*.pyc,*/.git/*,*/.svn/*,*/.virtual_env/*,*/.mail/*
+"set wildmode=list:longest
+set wildmode=longest,full
+set completeopt=longest,menu
+"}}}
+
+"{{{ Search options
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+"}}}
+
+augroup CREATE_MISSING_DIR_ON_BUF_WRITE
+  autocmd BufWritePre * if !isdirectory(expand('%:h')) | call mkdir(expand('%:h'),'p') | endif
+augroup end
+
+"{{{ Supporting files
+silent! runtime plugins
+"}}}
+
+"{{{ Colors
+set background=dark
+silent! colorscheme jellybeans
+syntax on
+set t_Co=256
+"}}}
+
+"vim fdl=0
