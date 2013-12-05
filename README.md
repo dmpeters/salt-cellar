@@ -14,6 +14,7 @@ saltstack and a virtualbox vm on my Mac OSX machine.
  - virtualenv salt or mkvirtualenv salt
  - pip install salty yolk
  - sudo launchctl limit maxfiles 4096 8192
+ - sudo salt-master --log-level=all
  - ln -s salt /etc/salt
  - ln -s srv /srv
  - vagrant up
